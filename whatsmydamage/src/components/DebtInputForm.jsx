@@ -40,7 +40,7 @@ const DebtInputForm = ({ onCalculate }) => {
           required
         />
       </div>
-      <button type="submit">Calculate</button>
+      <button type="submit">What's my damage?</button>
     </form>
   );
 };
