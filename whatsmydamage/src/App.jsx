@@ -2,30 +2,51 @@
 import React, { useState } from 'react';
 import DebtInputForm from './components/DebtInputForm';
 import DebtResults from './components/DebtResults';
+import DebtRepaymentChart from './components/DebtRepaymentChart'; // Import the chart component
 import LoginForm from './components/LoginForm';
-import SignUpForm from './components/SignUpForm'; // Import SignUpForm
+import SignUpForm from './components/SignUpForm';
 import './App.css';
 import { useAuth } from './hooks/useAuth';
 import { signOut } from 'firebase/auth';
-import { auth } from './firebase'; // Import Firebase auth for logout
+import { auth } from './firebase';
 
 function App() {
   const [results, setResults] = useState(null);
-  const [showSignUp, setShowSignUp] = useState(false); // Toggle between login and sign-up forms
+  const [chartData, setChartData] = useState([]);
+  const [showSignUp, setShowSignUp] = useState(false);
   const { user } = useAuth();
 
   const calculateDebt = ({ principal, interestRate, monthlyPayment }) => {
     const p = parseFloat(principal);
     const r = parseFloat(interestRate) / 100 / 12;
-    const n = Math.log(monthlyPayment / (monthlyPayment - p * r)) / Math.log(1 + r);
+    let remainingBalance = p;
+    const repaymentData = [];
+    let month = 0;
 
-    const totalInterest = monthlyPayment * n - p;
+    while (remainingBalance > 0 && month < 600) {  // Avoid infinite loops
+      const interestForMonth = remainingBalance * r;
+      const paymentTowardsPrincipal = monthlyPayment - interestForMonth;
+      remainingBalance -= paymentTowardsPrincipal;
+
+      // Ensure balance doesn’t go negative
+      if (remainingBalance < 0) remainingBalance = 0;
+
+      repaymentData.push({
+        month: month + 1,
+        remainingBalance: remainingBalance.toFixed(2),
+        monthlyPayment: monthlyPayment,
+      });
+      
+      month++;
+    }
 
     setResults({
       monthlyPayment,
-      totalInterest: totalInterest.toFixed(2),
-      repaymentMonths: Math.ceil(n),
+      totalInterest: (monthlyPayment * month - p).toFixed(2),
+      repaymentMonths: month,
     });
+
+    setChartData(repaymentData);  // Set the chart data
   };
 
   const handleLogout = () => {
@@ -38,7 +59,6 @@ function App() {
 
   return (
     <div>
-      {/* Show login or sign-up form if the user is not logged in */}
       {!user ? (
         <>
           {showSignUp ? (
@@ -46,7 +66,6 @@ function App() {
           ) : (
             <LoginForm />
           )}
-          {/* Toggle between login and sign-up */}
           <button onClick={() => setShowSignUp(!showSignUp)}>
             {showSignUp ? 'Have an account? Log In' : "Don't have an account? Sign Up"}
           </button>
@@ -59,6 +78,10 @@ function App() {
             <h1>Debt Repayment Calculator</h1>
             <DebtInputForm onCalculate={calculateDebt} />
             <DebtResults results={results} />
+            {/* Render the chart if there's data */}
+            {chartData.length > 0 && (
+              <DebtRepaymentChart data={chartData} />
+            )}
           </div>
         </>
       )}
