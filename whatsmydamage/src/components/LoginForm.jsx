@@ -18,27 +18,30 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+      <img src="logo.png" alt="Logo" style={{ display: 'block', margin: '0 auto', width: '50%', height: '50%' }} />
+      
+      <form className="form" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <span className="input-span">
+          <label htmlFor="email" className="label">Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label>Password:</label>
+        </span>
+        <span className="input-span">
+          <label htmlFor="password" className="label">Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
+        </span>
+        <span className="span"><a href="#">Forgot password?</a></span>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">Log In</button>
       </form>
