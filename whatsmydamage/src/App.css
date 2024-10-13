@@ -1,42 +1,93 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.app-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  padding: 20px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Specific styles for each grid area */
+.debt-list {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.debt-chart {
+  grid-column: 2 / 3;
+  grid-row: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.profile-box {
+  grid-column: 3 / 4;
+  grid-row: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.add-debt-box {
+  grid-column: 1 / 2;
+  grid-row: 2;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.consolidation-box {
+  grid-column: 2 / 3;
+  grid-row: 2;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.add-payment-box {
+  grid-column: 3 / 4;
+  grid-row: 2;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .app-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(6, auto);
   }
-  to {
-    transform: rotate(360deg);
+
+  .debt-list {
+      grid-column: 1;
+      grid-row: 1;
+  }
+
+  .debt-chart {
+      grid-column: 1;
+      grid-row: 2;
+  }
+
+  .profile-box {
+      grid-column: 1;
+      grid-row: 3;
+  }
+
+  .add-debt-box {
+      grid-column: 1;
+      grid-row: 4;
+  }
+
+  .consolidation-box {
+      grid-column: 1;
+      grid-row: 5;
+  }
+
+  .add-payment-box {
+      grid-column: 1;
+      grid-row: 6;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+/* Make the chart larger in comparison to other components */
+.debt-chart {
+  flex: 2;
 }
