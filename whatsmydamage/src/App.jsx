@@ -34,22 +34,24 @@ function App() {
   
     let totalPrincipal = 0;
     let combinedMonthlyPayment = 0;
-    let combinedRepaymentData = [];
+    let monthlyTotals = Array.from({ length: goalMonths }, () => 0); // Array to store total remaining balances per month
     let remainingBalanceSum = 0;
-    let totalInterest = 0;
   
     user1.debts.forEach((debt) => {
       const p = parseFloat(debt.amount);
-      const r = parseFloat(debt.interestRate) / 100 / 12; 
+      const r = parseFloat(debt.interestRate) / 100 / 12; // Monthly interest rate
       const n = parseInt(goalMonths);
+  
+      if (isNaN(p) || isNaN(r) || isNaN(n)) {
+        console.error("Invalid debt data:", debt);
+        return;
+      }
   
       const monthlyPayment = (p * r) / (1 - Math.pow(1 + r, -n));
       combinedMonthlyPayment += monthlyPayment;
-      
+  
       let remainingBalance = p;
-      const repaymentData = [];
       let month = 0;
-      let interestAccrued = 0;
   
       while (remainingBalance > 0 && month < n) {
         const interestForMonth = remainingBalance * r;
@@ -57,41 +59,37 @@ function App() {
         remainingBalance -= paymentTowardsPrincipal;
   
         if (remainingBalance < 0) remainingBalance = 0;
-
-        //Accumulate interest paid
-        interestAccrued += interestForMonth;
   
-        repaymentData.push({
-          month: month + 1,
-          remainingBalance: remainingBalance.toFixed(2),
-          monthlyPayment: monthlyPayment.toFixed(2),
-        });
+        // Add the current remaining balance to the corresponding month in the total array
+        monthlyTotals[month] += parseFloat(remainingBalance.toFixed(2));
   
         month++;
       }
-      
-      totalInterest += interestAccrued;
-      combinedRepaymentData = combinedRepaymentData.concat(repaymentData);
   
       totalPrincipal += p;
       remainingBalanceSum += remainingBalance;
     });
   
+    // Convert monthlyTotals into a format that the chart can use
+    const combinedRepaymentData = monthlyTotals.map((total, index) => ({
+      month: index + 1,
+      remainingBalance: total,
+    }));
+  
     setTimeout(() => {
       setResults({
         monthlyPayment: combinedMonthlyPayment.toFixed(2),
         repaymentMonths: goalMonths,
-        totalInterest: totalInterest.toFixed(2),
       });
   
-      setChartData(combinedRepaymentData);
+      setChartData(combinedRepaymentData); // Set the aggregated chart data
   
       const totalPaidOff = totalPrincipal - remainingBalanceSum;
       const paidOffPercentage = ((totalPaidOff / totalPrincipal) * 100).toFixed(2);
       setProgress(paidOffPercentage);
   
       setLoading(false);
-    }, 1000); 
+    }, 1000);
   };
   
   const handleLogout = () => {
@@ -177,13 +175,17 @@ function App() {
                 <ProgressBar progress={progress} />
               </div>
             )}
+            
 
             <div className="debt-chart">
-              {chartData.length > 0 && (
-                <div className="chart-container">
-                  <DebtRepaymentChart data={chartData} />
-                </div>
-              )}
+              {progress > 0 && <ProgressBar progress={progress} />}
+
+              <div className="chart-container">
+  {chartData && chartData.length > 0 && (
+    <DebtRepaymentChart data={chartData} />
+  )}
+</div>
+
             </div>
 
             <div className="profile-box">

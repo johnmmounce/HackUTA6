@@ -22,7 +22,7 @@ exports.getChatResponse = functions.https.onRequest(async (req, res) => {
         },
         {
           headers: {
-            Authorization: `Bearer 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`, // Replace with your actual OpenAI API key
+            Authorization: `Bearer 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`, // Replace with your actual OpenAI API key
             'Content-Type': 'application/json',
           }
         }
