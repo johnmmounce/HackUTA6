@@ -32,7 +32,7 @@ const Chatbot = () => {
     <div className="chatbot-box">
       {/* Introduction Message */}
       <div className="chatbot-header">
-        <img src="/path/to/logo.png" alt="Chatbot Logo" className="chatbot-logo" />
+        <img src="chatbot.jfif" alt="Chatbot Logo" className="chatbot-logo" />
         <span>I'm a chatbot here to assist with your questions!</span>
       </div>
 
