@@ -96,6 +96,7 @@
   width: 80vw;
   max-width: 1200px; /* Limit max width for better readability on large screens */
   margin: 0 auto; /* Center the grid */
+  margin-top: 35px; /* Add space at the top */
   box-sizing: border-box;
   background-color: #3b7b56;
   border-radius: 12px;
