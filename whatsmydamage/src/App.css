@@ -87,58 +87,124 @@
 .read-the-docs {
   color: #888;
 }
-
 .app-container {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr; /* Outer columns are 1fr, middle is 2fr */
   grid-template-rows: auto auto;
   gap: 20px;
   padding: 20px;
-  width: 80vw; /* Ensure it takes the full viewport width */
-  box-sizing: border-box; /* Include padding in the width calculation */
+  width: 80vw;
+  max-width: 1200px; /* Limit max width for better readability on large screens */
+  margin: 0 auto; /* Center the grid */
+  box-sizing: border-box;
+  background-color: #3b7b56;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Common box styles for all grid areas */
+.debt-list,
+.debt-chart,
+.profile-box,
+.add-debt-box,
+.consolidation-box,
+.add-payment-box {
+  background-color: #242424;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Add transition for hover effect */
+}
+
+/* Hover effect for interactive feel */
+.debt-list:hover,
+.debt-chart:hover,
+.profile-box:hover,
+.add-debt-box:hover,
+.consolidation-box:hover,
+.add-payment-box:hover {
+  transform: translateY(-3px); /* Slight lift */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Stronger shadow */
 }
 
 /* Specific styles for each grid area */
 .debt-list {
   grid-column: 1 / 2;
   grid-row: 1;
-  border: 1px solid #ccc;
-  padding: 10px;
 }
 
 .debt-chart {
   grid-column: 2 / 3;
   grid-row: 1;
-  border: 1px solid #ccc;
-  padding: 10px;
 }
 
 .profile-box {
   grid-column: 3 / 4;
   grid-row: 1;
-  border: 1px solid #ccc;
-  padding: 10px;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
 }
 
 .add-debt-box {
   grid-column: 1 / 2;
   grid-row: 2;
-  border: 1px solid #ccc;
-  padding: 10px;
 }
 
 .consolidation-box {
   grid-column: 2 / 3;
   grid-row: 2;
-  border: 1px solid #ccc;
-  padding: 10px;
 }
 
 .add-payment-box {
   grid-column: 3 / 4;
   grid-row: 2;
-  border: 1px solid #ccc;
-  padding: 10px;
+}
+
+/* Improve typography and readability */
+h3 {
+  font-family: 'Poppins', sans-serif; /* Modern font */
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .app-container {
+    grid-template-columns: 1fr; /* Single column for mobile view */
+    gap: 15px;
+  }
+
+  .debt-list,
+  .debt-chart,
+  .profile-box,
+  .add-debt-box,
+  .consolidation-box,
+  .add-payment-box {
+    grid-column: 1 / 2;
+    grid-row: auto;
+  }
 }
