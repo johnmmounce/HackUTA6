@@ -2,9 +2,7 @@
 import React, { useState } from 'react';
 import DebtInputForm from './components/DebtInputForm';
 import DebtResults from './components/DebtResults';
-// Import the chart component
-import DebtRepaymentChart from './components/DebtRepaymentChart'; 
-// Import ProgressBar component
+import DebtRepaymentChart from './components/DebtRepaymentChart'; // Import the chart component
 import ProgressBar from './components/ProgressBar';  
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
@@ -17,8 +15,7 @@ import { auth } from './firebase';
 function App() {
   const [results, setResults] = useState(null);
   const [chartData, setChartData] = useState([]);
-  // Progress state
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState();  // Set a default value for testing
   const [showSignUp, setShowSignUp] = useState(false);
   const { user } = useAuth();
   const name = "Bob"
@@ -71,16 +68,11 @@ function App() {
         repaymentMonths: month,
       });
       
-      // Set the chart data
-      setChartData(repaymentData);  
-
-      //Calculate the percentage of debt paid off and update progress
-      //const paidOffPercentage = ((amountPaidOff / p) * 100).toFixed(2);
-      //setProgress(paidOffPercentage);  // Update the progress percentage
+      setChartData(repaymentData);  // Set the chart data
 
       // Calculate the percentage of debt paid off
-      //const paidOffPercentage = ((amountPaid / p) * 100).toFixed(2);
-      //setProgress(paidOffPercentage);  // Update the progress percentage
+      const paidOffPercentage = ((amountPaid / p) * 100).toFixed(2);
+      setProgress(paidOffPercentage);  // Update the progress percentage
 
       setLoading(false);
     }, 1000); //Simulating a one second delay for the pop-up
