@@ -4,18 +4,19 @@ import React, { useState } from 'react';
 const DebtInputForm = ({ onCalculate }) => {
   const [principal, setPrincipal] = useState('');
   const [interestRate, setInterestRate] = useState('');
-  const [amountPaidOff, setAmountPaidOff] = useState('');
   const [goalMonths, setGoalMonths] = useState('');
+  // New input state for amount paid off
+  const [amountPaidOff, setAmountPaidOff] = useState(''); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCalculate({ principal, interestRate, amountPaidOff, goalMonths});
+    onCalculate({ principal, interestRate, goalMonths, amountPaidOff });
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Total Damage ($) </label>
+        <label>Total Damage (Debt): </label>
         <input
           type="number"
           value={principal}
@@ -24,7 +25,7 @@ const DebtInputForm = ({ onCalculate }) => {
         />
       </div>
       <div>
-        <label>Damage rate (%)</label>
+        <label>Damage Rate (%): </label>
         <input
           type="number"
           value={interestRate}
@@ -32,9 +33,8 @@ const DebtInputForm = ({ onCalculate }) => {
           required
         />
       </div>
-      {/* Add the new input for amount paid off */}
       <div>
-        <label>Cleared Damage </label>
+        <label>Damage Cleared: </label>
         <input
           type="number"
           value={amountPaidOff}
@@ -43,7 +43,7 @@ const DebtInputForm = ({ onCalculate }) => {
         />
       </div>
       <div>
-        <label>Damage Free in (months): </label>
+        <label>Damage Free in (Months): </label>
         <input
           type="number"
           value={goalMonths}
@@ -51,7 +51,7 @@ const DebtInputForm = ({ onCalculate }) => {
           required
         />
       </div>
-      
+
       <button type="submit">What's my damage?</button>
     </form>
   );

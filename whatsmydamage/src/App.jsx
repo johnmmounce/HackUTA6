@@ -35,10 +35,17 @@ function App() {
     // Amount already paid off
     const amountPaid = parseFloat(amountPaidOff); 
 
+<<<<<<< HEAD
     // Calculate the remaining balance after subtracting the paid-off amount
     const remainingPrincipal = p - amountPaid;
 
     // Calculate the monthly payment using the amortization formula
+=======
+    //Calculate the remaining balance after subtracting the paid-off amount
+    const remainingPrincipal = p - amountPaid;
+
+    //Calculate the monthly payment
+>>>>>>> maysa
     const monthlyPayment = (remainingPrincipal * r) / (1 - Math.pow(1 + r, -n));
 
     let remainingBalance = remainingPrincipal;
@@ -46,8 +53,12 @@ function App() {
     let month = 0;
 
     setTimeout(() => {
+<<<<<<< HEAD
       // Avoid infinite loops
       while (remainingBalance > 0 && month < n) {  
+=======
+      while (remainingBalance > 0 && month < n) {  // Avoid infinite loops
+>>>>>>> maysa
         const interestForMonth = remainingBalance * r;
         const paymentTowardsPrincipal = monthlyPayment - interestForMonth;
         remainingBalance -= paymentTowardsPrincipal;
@@ -64,7 +75,11 @@ function App() {
       }
       
       setResults({
+<<<<<<< HEAD
         monthlyPayment,
+=======
+        monthlyPayment: monthlyPayment.toFixed(2),
+>>>>>>> maysa
         totalInterest: (monthlyPayment * month - remainingPrincipal).toFixed(2),
         repaymentMonths: month,
       });
@@ -74,6 +89,10 @@ function App() {
 
       //Calculate the percentage of debt paid off and update progress
       //const paidOffPercentage = ((amountPaidOff / p) * 100).toFixed(2);
+      //setProgress(paidOffPercentage);  // Update the progress percentage
+
+      // Calculate the percentage of debt paid off
+      //const paidOffPercentage = ((amountPaid / p) * 100).toFixed(2);
       //setProgress(paidOffPercentage);  // Update the progress percentage
 
       setLoading(false);
