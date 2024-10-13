@@ -1,7 +1,0 @@
-/* DebtList.css */
-.debt-list-container {
-    max-height: 300px; /* Set a maximum height for the list */
-    overflow-y: auto;  /* Enable vertical scrolling */
-    padding: 10px;     /* Optional: Add some padding */
-    border-radius: 5px; /* Optional: Add rounded corners (remove if you want sharp corners) */
-}
