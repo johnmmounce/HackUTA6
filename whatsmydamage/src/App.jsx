@@ -25,6 +25,7 @@ function App() {
   const { user } = useAuth();
   const [user1, setUser1] = useState({ debts: [] });
   const [totalDebt, setTotalDebt] = useState(0); // Initialize total debt
+  const [totalPaidOff, setTotalPaidOff] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const calculateDebt = ({ goalMonths }) => {
@@ -34,6 +35,7 @@ function App() {
     let combinedMonthlyPayment = 0;
     let combinedRepaymentData = [];
     let remainingBalanceSum = 0;
+    let totalInterest = 0;
   
     // Iterate through each debt and calculate its monthly payment and repayment plan
     user1.debts.forEach((debt) => {
@@ -47,6 +49,7 @@ function App() {
       let remainingBalance = p;
       const repaymentData = [];
       let month = 0;
+      let interestAccrued = 0;
   
       while (remainingBalance > 0 && month < n) {
         const interestForMonth = remainingBalance * r;
@@ -54,6 +57,9 @@ function App() {
         remainingBalance -= paymentTowardsPrincipal;
   
         if (remainingBalance < 0) remainingBalance = 0;
+
+        //Accumulate interest paid
+        interestAccrued += interestForMonth;
   
         repaymentData.push({
           month: month + 1,
@@ -63,6 +69,8 @@ function App() {
   
         month++;
       }
+
+      totalInterest += interestAccrued;
   
       // Combine all repayment data into one
       combinedRepaymentData = combinedRepaymentData.concat(repaymentData);
@@ -76,6 +84,7 @@ function App() {
       setResults({
         monthlyPayment: combinedMonthlyPayment.toFixed(2),
         repaymentMonths: goalMonths,
+        totalInterest: totalInterest.toFixed(2),
       });
   
       // Set the combined chart data
@@ -89,6 +98,7 @@ function App() {
       setLoading(false);
     }, 1000); // Simulate a one-second delay
   };
+  
   const handleLogout = () => {
     signOut(auth).then(() => {
       console.log('User logged out');
@@ -116,86 +126,108 @@ function App() {
   };
 
   const handleMakePayment = (debtIndex, paymentAmount) => {
-    setUser1((prevUser) => {
-      if (!prevUser || !prevUser.debts || debtIndex < 0 || debtIndex >= prevUser.debts.length) {
-        console.error('Invalid debt selected');
-        return prevUser;
+  setUser1((prevUser) => {
+    if (!prevUser || !prevUser.debts || debtIndex < 0 || debtIndex >= prevUser.debts.length) {
+      console.error('Invalid debt selected');
+      return prevUser;
+    }
+
+    const updatedDebts = prevUser.debts.map((debt, index) => {
+      if (index === debtIndex) {
+        const interestAmount = debt.amount * (debt.interestRate / 100);
+        const totalDebt = debt.amount + interestAmount;
+        const newTotalDebt = Math.max(0, totalDebt - paymentAmount);
+
+        // Track how much of the debt has been paid off
+        const amountPaid = totalDebt - newTotalDebt;
+        setTotalPaidOff((prevPaidOff) => prevPaidOff + amountPaid);  // Update total paid off
+        
+        return { ...debt, total: newTotalDebt };
       }
-
-      const updatedDebts = prevUser.debts.map((debt, index) => {
-        if (index === debtIndex) {
-          const interestAmount = debt.amount * (debt.interestRate / 100);
-          const totalDebt = debt.amount + interestAmount;
-          const newTotalDebt = Math.max(0, totalDebt - paymentAmount);
-          return { ...debt, total: newTotalDebt };
-        }
-        return debt;
-      });
-
-      const newTotalDebt = updatedDebts.reduce((total, debt) => total + debt.total, 0);
-
-      return { ...prevUser, debts: updatedDebts };
+      return debt;
     });
 
-    const total = user1.debts.reduce((total, debt) => total + debt.total, 0);
-    setTotalDebt(total);
-  };
+    const newTotalDebt = updatedDebts.reduce((total, debt) => total + debt.total, 0);
+    setTotalDebt(newTotalDebt);  // Update the total debt left
 
-  return (
-    <div>
-      {!user ? (
-        <>
-          {showSignUp ? <SignUpForm /> : <LoginForm />}
-          <button onClick={() => setShowSignUp(!showSignUp)}>
-            {showSignUp ? "Have an account? Log In" : "Don't have an account? Sign Up"}
-          </button>
-        </>
-      ) : (
-        <>
-          <Navbar username={user.email} onClick={handleLogout} />
-          <div className="app-container">
-            {loading && (
-              <div className="popup">
-                <div className="popup-content">
-                  <p>Calculating your damage...</p>
-                </div>
+    // Recalculate progress
+    /*if (totalDebt > 0) {
+      const newProgress = ((totalPaidOff / totalDebt) * 100).toFixed(2); 
+      setProgress(newProgress);  // Update progress percentage
+    }*/
+
+    return { ...prevUser, debts: updatedDebts };
+  });
+};
+
+
+return (
+  <div>
+    {!user ? (
+      <>
+        {showSignUp ? <SignUpForm /> : <LoginForm />}
+        <button onClick={() => setShowSignUp(!showSignUp)}>
+          {showSignUp ? "Have an account? Log In" : "Don't have an account? Sign Up"}
+        </button>
+      </>
+    ) : (
+      <>
+        <Navbar username={user.email} onClick={handleLogout} />
+        <div className="app-container">
+          
+          {/* Loading State */}
+          {loading && (
+            <div className="popup">
+              <div className="popup-content">
+                <p>Calculating your damage...</p>
               </div>
-            )}
-            <div className="debt-list">
-              <DebtList debts={user1.debts} />
             </div>
-            <div className="debt-chart">
-              {progress > 0 && <ProgressBar progress={progress} />}
+          )}
+
+          {/* Debt List and Form */}
+          <div className="debt-list">
+            <DebtList debts={user1.debts} />
+          </div>
+
+          {/* Progress Bar showing paid-off percentage */}
+          {progress > 0 && (
+            <div className="progress-bar-container">
+              <ProgressBar progress={progress} />
+            </div>
+          )}
+
+          {/* Debt Repayment Chart */}
+          <div className="debt-chart">
+            {chartData.length > 0 && (
               <div className="chart-container">
                 <DebtRepaymentChart data={chartData} />
               </div>
-            </div>
-            <div className="profile-box">
-            <div>
-  <h3>Total Debt: ${totalDebt.toFixed(2)}</h3>
-</div>
-              <DebtInputForm onCalculate={calculateDebt} />
-            </div>
-            <div className="add-debt-box">
-              <AddDebtBox onAddDebt={handleAddDebt} />
-            </div>
-            <div className="consolidation-box">
-            <DebtResults results={results} />
-            </div>
-            <div className="add-payment-box">
-              <ProfileBox user={user} />
-            </div>
+            )}
           </div>
-          {progress > 0 && <ProgressBar progress={progress} />}
-          {chartData.length > 0 && (
-            <div className="chart-container">
-              <DebtRepaymentChart data={chartData} />
+
+          {/* Debt Input and Results */}
+          <div className="profile-box">
+            <div>
+              <h3>Total Debt: ${totalDebt.toFixed(2)}</h3>
             </div>
-          )}
-        </>
-      )}
-    </div>
-  );
+            <DebtInputForm onCalculate={calculateDebt} />
+          </div>
+          
+          {/* Additional Sections */}
+          <div className="add-debt-box">
+            <AddDebtBox onAddDebt={handleAddDebt} />
+          </div>
+          <div className="consolidation-box">
+            <DebtResults results={results} />
+          </div>
+          <div className="add-payment-box">
+            <ProfileBox user={user} />
+          </div>
+        </div>
+      </>
+    )}
+  </div>
+);
 }
 
 export default App;
