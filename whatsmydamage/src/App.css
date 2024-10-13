@@ -87,7 +87,49 @@
   }
 }
 
+<<<<<<< HEAD
 /* Make the chart larger in comparison to other components */
 .debt-chart {
   flex: 2;
+=======
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+/* Popup styling */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+  z-index: 9999; /* Ensure it appears above other elements */
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.popup-content p {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.read-the-docs {
+  color: #888;
+>>>>>>> b2196c052991d6ac50962c1d7cca413ee08b25c0
 }
