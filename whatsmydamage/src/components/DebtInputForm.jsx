@@ -60,13 +60,13 @@ const DebtInputForm = ({ onCalculate }) => {
         />
       </span>
       <span class="input-span">
-      <label for="goalMonths" class="label">
+      <label for="amountPaidOff" class="label">
           {" "}
           Damage cleared : 
         </label>
         <input
           type="number"
-          value={}
+          value={amountPaidOff}
           onChange={(e) => setAmountPaidOff(e.target.value)}
           required
         />
