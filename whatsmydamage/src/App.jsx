@@ -89,6 +89,7 @@ function App() {
       setLoading(false);
     }, 1000); // Simulate a one-second delay
   };
+  
   const handleLogout = () => {
     signOut(auth).then(() => {
       console.log('User logged out');
@@ -186,12 +187,12 @@ function App() {
               <ProfileBox user={user} />
             </div>
           </div>
-          {progress > 0 && <ProgressBar progress={progress} />}
+          {/* {progress > 0 && <ProgressBar progress={progress} />}
           {chartData.length > 0 && (
             <div className="chart-container">
               <DebtRepaymentChart data={chartData} />
             </div>
-          )}
+          )} */}
         </>
       )}
     </div>

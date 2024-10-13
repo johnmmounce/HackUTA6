@@ -193,9 +193,9 @@ div.results {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%; /* Make navbar take the full width of the screen */
+  width: 85%; /* Make navbar take the full width of the screen */
   padding: 10px 2px; /* Maintain the padding for top/bottom and left/right */
-  background-color: var(--clr); /* Use a color variable if you have one */
+  background-color: #242424; /* Use a color variable if you have one */
   color: #fff; /* Text color */
   border-bottom: 2px solid var(--bg-dark); /* Optional: add a bottom border */
   position: fixed; /* Optional: make navbar fixed at the top */
