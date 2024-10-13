@@ -1,7 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem;
   text-align: center;
 }
 
@@ -86,4 +86,59 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.app-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* Outer columns are 1fr, middle is 2fr */
+  grid-template-rows: auto auto;
+  gap: 20px;
+  padding: 20px;
+  width: 80vw; /* Ensure it takes the full viewport width */
+  box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+/* Specific styles for each grid area */
+.debt-list {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.debt-chart {
+  grid-column: 2 / 3;
+  grid-row: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.profile-box {
+  grid-column: 3 / 4;
+  grid-row: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-debt-box {
+  grid-column: 1 / 2;
+  grid-row: 2;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.consolidation-box {
+  grid-column: 2 / 3;
+  grid-row: 2;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.add-payment-box {
+  grid-column: 3 / 4;
+  grid-row: 2;
+  border: 1px solid #ccc;
+  padding: 10px;
 }

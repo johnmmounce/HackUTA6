@@ -1,16 +1,15 @@
-// src/components/DebtResults.jsx
+// DebtResults.jsx
 import React from 'react';
 
 const DebtResults = ({ results }) => {
   if (!results) return null;
 
   return (
-  <div class="results">
-    <h3>Debt Repayment Results</h3>
-    <p>Monthly Payment: {results.monthlyPayment}</p>
-    <p>Total Interest: {results.totalInterest}</p>
-    <p>Repayment Duration: {results.repaymentMonths} months</p>
-  </div>
+    <div>
+      <h3>Monthly Payment: ${results.monthlyPayment}</h3>
+      <h3>Total Interest: ${results.totalInterest}</h3>
+      <h3>Repayment Months: {results.repaymentMonths}</h3>
+    </div>
   );
 };
 
