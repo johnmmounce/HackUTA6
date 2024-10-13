@@ -4,6 +4,7 @@ import DebtInputForm from './components/DebtInputForm';
 import DebtResults from './components/DebtResults';
 import DebtRepaymentChart from './components/DebtRepaymentChart'; // Import the chart component
 import ProgressBar from './components/ProgressBar';  
+import Chatbot from './components/Chatbot'; // Import the Chatbot component
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
 import Navbar from './components/NavBar';
@@ -25,7 +26,6 @@ function App() {
   const calculateDebt = ({ principal, interestRate, goalMonths, amountPaidOff }) => {
     //Set Loading to true when calculation starts
     setLoading(true);
-
 
     const p = parseFloat(principal);
     const r = parseFloat(interestRate) / 100 / 12;
@@ -102,7 +102,6 @@ function App() {
       ) : (
         <>
         <Navbar username={user.email} onClick={handleLogout}/>
-          {/* <button onClick={handleLogout}>Log Out</button> */}
           <div className="app-container">
             <DebtInputForm onCalculate={calculateDebt} />
 
@@ -124,10 +123,15 @@ function App() {
 
           {/* Render the chart if there's data */}
           {chartData.length > 0 && (
-            <div className = "chart-container">
+            <div className="chart-container">
               <DebtRepaymentChart data={chartData} />
-              </div>
-            )}
+            </div>
+          )}
+
+          {/* Add the Chatbot component */}
+          <div className="chatbot-container">
+            <Chatbot />
+          </div>
             
           </div>
         </>
