@@ -87,11 +87,6 @@
   }
 }
 
-<<<<<<< HEAD
-/* Make the chart larger in comparison to other components */
-.debt-chart {
-  flex: 2;
-=======
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
@@ -151,5 +146,4 @@
 
 .read-the-docs {
   color: #888;
->>>>>>> b2196c052991d6ac50962c1d7cca413ee08b25c0
 }
