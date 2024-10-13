@@ -21,31 +21,50 @@ const SignUpForm = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-      <img src="logo.png" alt="Logo" style={{ display: 'block', margin: '0 auto', width: '50%', height: '50%' }} />
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <img
+        src="logo.png"
+        alt="Logo"
+        style={{
+          display: "block",
+          margin: "0 auto",
+          width: "50%",
+          height: "50%",
+        }}
+      />
       <form class="form" onSubmit={handleSubmit}>
-    
-      <h2>Sign Up</h2>
-      <span class="input-span">
-      <label for="email" class="label">Email</label>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-    </span>
-    <span class="input-span">
-      <label for="password" class="label">Password</label>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-    </span>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {success && <p style={{ color: 'green' }}>{success}</p>}
+        <h2>Sign Up</h2>
+        <span class="input-span">
+          <label for="email" class="label">
+            Email
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </span>
+        <span class="input-span">
+          <label for="password" class="label">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </span>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
         <button type="submit">Sign Up</button>
       </form>
     </div>

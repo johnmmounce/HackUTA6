@@ -5,6 +5,7 @@ import DebtResults from './components/DebtResults';
 import DebtRepaymentChart from './components/DebtRepaymentChart'; // Import the chart component
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
+import Navbar from './components/NavBar';
 import './App.css';
 import { useAuth } from './hooks/useAuth';
 import { signOut } from 'firebase/auth';
@@ -15,6 +16,7 @@ function App() {
   const [chartData, setChartData] = useState([]);
   const [showSignUp, setShowSignUp] = useState(false);
   const { user } = useAuth();
+  const name = "Bob"
   //Loading state
   const [loading, setLoading] = useState(false);
 
@@ -81,7 +83,8 @@ function App() {
         </>
       ) : (
         <>
-          <button onClick={handleLogout}>Log Out</button>
+        <Navbar username={user.email} onClick={handleLogout}/>
+          {/* <button onClick={handleLogout}>Log Out</button> */}
           <div className="app-container">
             <DebtInputForm onCalculate={calculateDebt} />
 
