@@ -20,7 +20,6 @@ const LoginForm = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
       <img src="logo.png" alt="Logo" style={{ display: 'block', margin: '0 auto', width: '50%', height: '50%' }} />
-      
       <form className="form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <span className="input-span">
@@ -44,7 +43,7 @@ const LoginForm = () => {
         <span className="span"><a href="#">Forgot password?</a></span>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">Log In</button>
-      </form>
+        </form>
     </div>
   );
 };

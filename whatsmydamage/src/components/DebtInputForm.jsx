@@ -12,36 +12,54 @@ const DebtInputForm = ({ onCalculate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Principal</label>
+    <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+    }}
+  >
+    <form class="form" onSubmit={handleSubmit}>
+      <span class="input-span">
+        <label for="principal" class="label">
+          {" "}
+          Principal
+        </label>
         <input
           type="number"
           value={principal}
           onChange={(e) => setPrincipal(e.target.value)}
           required
         />
-      </div>
-      <div>
-        <label>Interest Rate (%)</label>
+      </span>
+      <span class="input-span">
+      <label for="interestRate" class="label">
+          {" "}
+          Intrest Rate (%)
+        </label>
         <input
           type="number"
           value={interestRate}
           onChange={(e) => setInterestRate(e.target.value)}
           required
         />
-      </div>
-      <div>
-        <label>Monthly Payment</label>
+      </span>
+      <span class="input-span">
+      <label for="monthlyPayment" class="label">
+          {" "}
+          Monthly Payment
+        </label>
         <input
           type="number"
           value={monthlyPayment}
           onChange={(e) => setMonthlyPayment(e.target.value)}
           required
         />
-      </div>
+      </span>
       <button type="submit">What's my damage?</button>
     </form>
+    </div>
   );
 };
 
