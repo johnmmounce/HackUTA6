@@ -9,6 +9,7 @@ const Navbar: React.FC<NavbarProps> = ({ username, onClick }) => {
     return (
       <nav className="navbar">
         <div className="navbar-username">{username}</div>
+        <img src="logo.png" alt="Logo" style={{ display: 'block', margin: '0 auto', width: '20%', height: '10%' }} />
         <button onClick={onClick}>
           Logout
         </button>

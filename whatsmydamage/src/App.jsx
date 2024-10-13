@@ -99,6 +99,7 @@ function App() {
     }, 1000); // Simulate a one-second delay
   };
   
+  
   const handleLogout = () => {
     signOut(auth).then(() => {
       console.log('User logged out');
