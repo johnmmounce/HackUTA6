@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import DebtInputForm from './components/DebtInputForm';
 import DebtResults from './components/DebtResults';
 import DebtRepaymentChart from './components/DebtRepaymentChart'; // Import the chart component
+import ProgressBar from './components/ProgressBar';  
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
 import './App.css';
@@ -13,6 +14,7 @@ import { auth } from './firebase';
 function App() {
   const [results, setResults] = useState(null);
   const [chartData, setChartData] = useState([]);
+  const [progress, setProgress] = useState();  // Set a default value for testing
   const [showSignUp, setShowSignUp] = useState(false);
   const { user } = useAuth();
   //Loading state
@@ -66,8 +68,8 @@ function App() {
       setChartData(repaymentData);  // Set the chart data
 
       // Calculate the percentage of debt paid off
-      //const paidOffPercentage = ((amountPaid / p) * 100).toFixed(2);
-      //setProgress(paidOffPercentage);  // Update the progress percentage
+      const paidOffPercentage = ((amountPaid / p) * 100).toFixed(2);
+      setProgress(paidOffPercentage);  // Update the progress percentage
 
       setLoading(false);
     }, 1000); //Simulating a one second delay for the pop-up
