@@ -208,3 +208,13 @@ button:hover {
     grid-row: auto;
   }
 }
+.chatbot-container {
+  padding: 20px;
+  background-color: #2d2d2d; /* You can change the background color */
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.chatbot-container h3 {
+  color: #fff; /* Adjust the text color */
+}

@@ -25,7 +25,7 @@ function App() {
   const [showSignUp, setShowSignUp] = useState(false);
   const { user } = useAuth();
   const [user1, setUser1] = useState({ debts: [] });
-  const [totalDebt, setTotalDebt] = useState(0); // Initialize total debt
+  const [totalDebt, setTotalDebt] = useState(0); 
   const [loading, setLoading] = useState(false);
 
   const calculateDebt = ({ goalMonths }) => {
@@ -36,10 +36,9 @@ function App() {
     let combinedRepaymentData = [];
     let remainingBalanceSum = 0;
   
-    // Iterate through each debt and calculate its monthly payment and repayment plan
     user1.debts.forEach((debt) => {
       const p = parseFloat(debt.amount);
-      const r = parseFloat(debt.interestRate) / 100 / 12; // Monthly interest rate
+      const r = parseFloat(debt.interestRate) / 100 / 12; 
       const n = parseInt(goalMonths);
   
       const monthlyPayment = (p * r) / (1 - Math.pow(1 + r, -n));
@@ -65,81 +64,34 @@ function App() {
         month++;
       }
   
-      // Combine all repayment data into one
       combinedRepaymentData = combinedRepaymentData.concat(repaymentData);
   
       totalPrincipal += p;
       remainingBalanceSum += remainingBalance;
     });
   
-    // Update the overall results
     setTimeout(() => {
       setResults({
         monthlyPayment: combinedMonthlyPayment.toFixed(2),
         repaymentMonths: goalMonths,
       });
   
-      // Set the combined chart data
       setChartData(combinedRepaymentData);
   
-      // Calculate progress as a percentage of the total paid off debt
       const totalPaidOff = totalPrincipal - remainingBalanceSum;
       const paidOffPercentage = ((totalPaidOff / totalPrincipal) * 100).toFixed(2);
       setProgress(paidOffPercentage);
   
       setLoading(false);
-    }, 1000); // Simulate a one-second delay
+    }, 1000); 
   };
+  
   const handleLogout = () => {
     signOut(auth).then(() => {
       console.log('User logged out');
     }).catch((error) => {
       console.error('Error logging out:', error);
     });
-  };
-
-  const handleAddDebt = (newDebt) => {
-    if (!newDebt.name || isNaN(newDebt.amount) || isNaN(newDebt.interestRate)) {
-      console.error('Invalid debt data:', newDebt);
-      return;
-    }
-
-    const interestAmount = newDebt.amount * (newDebt.interestRate / 100);
-    const updatedDebts = [
-      ...user1.debts,
-      { ...newDebt, interestAmount },
-    ];
-
-    setUser1({ ...user1, debts: updatedDebts });
-
-    const total = updatedDebts.reduce((total, debt) => total + debt.amount + debt.interestAmount, 0);
-    setTotalDebt(total); 
-  };
-
-  const handleMakePayment = (debtIndex, paymentAmount) => {
-    setUser1((prevUser) => {
-      if (!prevUser || !prevUser.debts || debtIndex < 0 || debtIndex >= prevUser.debts.length) {
-        console.error('Invalid debt selected');
-        return prevUser;
-      }
-
-      const updatedDebts = prevUser.debts.map((debt, index) => {
-        if (index === debtIndex) {
-          const interestAmount = debt.amount * (debt.interestRate / 100);
-          const totalDebt = debt.amount + interestAmount;
-          const newTotalDebt = Math.max(0, totalDebt - paymentAmount);
-          return { ...debt, total: newTotalDebt };
-        }
-        return debt;
-      });
-
-      const newTotalDebt = updatedDebts.reduce((total, debt) => total + debt.total, 0);
-
-      return { ...prevUser, debts: updatedDebts };
-    });
-
-    const total = user1.debts.reduce((total, debt) => total + debt.total, 0);
-    setTotalDebt(total);
   };
 
   return (
@@ -172,19 +124,22 @@ function App() {
               </div>
             </div>
             <div className="profile-box">
-            <div>
-  <h3>Total Debt: ${totalDebt.toFixed(2)}</h3>
-</div>
+              <div>
+                <h3>Total Debt: ${totalDebt.toFixed(2)}</h3>
+              </div>
               <DebtInputForm onCalculate={calculateDebt} />
             </div>
             <div className="add-debt-box">
-              <AddDebtBox onAddDebt={handleAddDebt} />
+              <AddDebtBox onAddDebt={newDebt => setUser1({ ...user1, debts: [...user1.debts, newDebt] })} />
             </div>
             <div className="consolidation-box">
-            <DebtResults results={results} />
+              <DebtResults results={results} />
             </div>
             <div className="add-payment-box">
               <ProfileBox user={user} />
+            </div>
+            <div className="chatbot-container"> {/* Add this container for Chatbot */}
+              <Chatbot /> {/* The chatbot will show up here */}
             </div>
           </div>
           {progress > 0 && <ProgressBar progress={progress} />}
