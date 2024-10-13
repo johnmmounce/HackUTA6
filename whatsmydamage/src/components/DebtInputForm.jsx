@@ -26,7 +26,7 @@ const DebtInputForm = ({ onCalculate }) => {
       <span class="input-span">
         <label for="principal" class="label">
           {" "}
-          Principal
+          Total Damage ($) :
         </label>
         <input
           type="number"
@@ -38,7 +38,7 @@ const DebtInputForm = ({ onCalculate }) => {
       <span class="input-span">
       <label for="interestRate" class="label">
           {" "}
-          Intrest Rate (%)
+          Damage Rate (%) :
         </label>
         <input
           type="number"
@@ -48,14 +48,26 @@ const DebtInputForm = ({ onCalculate }) => {
         />
       </span>
       <span class="input-span">
-      <label for="monthlyPayment" class="label">
+      <label for="goalMonths" class="label">
           {" "}
-          Monthly Payment
+          Damage free in (months) : 
         </label>
         <input
           type="number"
           value={goalMonths}
           onChange={(e) => setGoalMonths(e.target.value)}
+          required
+        />
+      </span>
+      <span class="input-span">
+      <label for="goalMonths" class="label">
+          {" "}
+          Damage cleared : 
+        </label>
+        <input
+          type="number"
+          value={}
+          onChange={(e) => setAmountPaidOff(e.target.value)}
           required
         />
       </span>
