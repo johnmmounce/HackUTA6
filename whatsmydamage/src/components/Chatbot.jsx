@@ -1,5 +1,7 @@
+// src/components/Chatbot.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import './Chatbot.css';  // Import the CSS for chatbot styling
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -12,9 +14,9 @@ const Chatbot = () => {
     setMessages((prevMessages) => [...prevMessages, { sender: 'user', text: input }]);
 
     try {
-      // Call the Firebase Cloud Function (if testing locally, use http://localhost:5001)
+      // Call the Firebase Cloud Function
       const response = await axios.post('http://localhost:5001/whatsmydamage-dd0fb/us-central1/getChatResponse', {
-        message: input,
+        message: input
       });
 
       // Add bot response to the conversation
@@ -23,11 +25,18 @@ const Chatbot = () => {
       setMessages((prevMessages) => [...prevMessages, { sender: 'bot', text: 'Error: Unable to fetch response' }]);
     }
 
-    setInput(''); // Clear input
+    setInput('');  // Clear input
   };
 
   return (
-    <div className="chatbot-container">
+    <div className="chatbot-box">
+      {/* Introduction Message */}
+      <div className="chatbot-header">
+        <img src="/path/to/logo.png" alt="Chatbot Logo" className="chatbot-logo" />
+        <span>I'm a chatbot here to assist with your questions!</span>
+      </div>
+
+      {/* Messages */}
       <div className="messages">
         {messages.map((msg, index) => (
           <div key={index} className={msg.sender === 'user' ? 'user-message' : 'bot-message'}>
@@ -35,14 +44,18 @@ const Chatbot = () => {
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type a message..."
-        onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-      />
-      <button onClick={sendMessage}>Send</button>
+
+      {/* Input Box */}
+      <div className="chatbot-input">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type a message..."
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 };
